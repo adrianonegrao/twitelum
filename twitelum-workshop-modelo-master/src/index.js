@@ -18,13 +18,14 @@ import PerfilUsuario from './pages/PerfilUsuario'
 import registerServiceWorker from './registerServiceWorker';
 
 import {BrowserRouter} from 'react-router-dom' //Lembrar de rodar: npm i reacr-router-dom
-import {Switch} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 
 ReactDOM.render(
     <BrowserRouter>
         <Switch>
-            <PerfilUsuario />
-            <Home />
+            <Route path="/" exact component={Home} />
+            <Route path="/usuario/algumacoisa" component={PerfilUsuario} />
+            <Route path="*" component={ () => <div> Pagina 404 </div> } />
         </Switch>
     </BrowserRouter>,
     document.getElementById('root'));
