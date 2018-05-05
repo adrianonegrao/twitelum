@@ -21,9 +21,20 @@ class App extends Component {
         //console.log('Adicionando...')
         const novoTweet = this.state.novoTweet
 
-        this.setState({
-            tweets: [novoTweet, ...this.state.tweets], //spread operator
-            novoTweet : ''
+        fetch('http://localhost:3001/tweets', {
+            method: 'POST',
+            body: JSON.stringify({ conteudo: novoTweet, login: 'omariosouto'})
+        })
+        .then( (infosDoRequest) => {
+            //console.log('Deu certo')
+            return infosDoRequest.json()
+        })
+        .then( (dadosVindosDoServidor) => {
+            console.log(dadosVindosDoServidor)
+            this.setState({
+                tweets: [dadosVindosDoServidor, ...this.state.tweets],
+                novoTweet: ''
+            })
         })
     }
 
@@ -76,7 +87,7 @@ class App extends Component {
                             }
                             {
                                 this.state.tweets.map(
-                                    (tweet, index) => <Tweet key={index} texto={tweet} /> )
+                                    (tweet, index) => <Tweet key={index} texto={tweet.conteudo} /> )
                             }
                     </div>
                 </Widget>
