@@ -9,11 +9,30 @@ import Tweet from './components/Tweet'
 class App extends Component {
 
     constructor(){
+        console.log('Construtor')
         super()
         this.state = {
             novoTweet : '',
             tweets: []
         }
+    }
+
+    componentWillMount(){
+        console.log('willMount')
+    }
+
+    componentDidMount(){
+        console.log('didMount')
+        fetch('http://localhost:3001/tweets')
+        .then( (respostaDoServidor) => {
+            return respostaDoServidor.json()
+        })
+        .then( (tweetsDoServidor) => {
+            this.setState({
+                tweets: tweetsDoServidor
+            })
+        })
+
     }
 
     adicionaTweet = (event) => {
@@ -39,6 +58,7 @@ class App extends Component {
     }
 
   render() {
+    console.log('render')
     return (
       <Fragment>
         <Cabecalho>
@@ -87,7 +107,7 @@ class App extends Component {
                             }
                             {
                                 this.state.tweets.map(
-                                    (tweet, index) => <Tweet key={index} texto={tweet.conteudo} /> )
+                                    (tweet, index) => <Tweet key={index} texto={tweet.conteudo} tweetInfo={tweet}/> )
                             }
                     </div>
                 </Widget>
