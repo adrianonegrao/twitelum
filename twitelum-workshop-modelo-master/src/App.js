@@ -11,8 +11,20 @@ class App extends Component {
     constructor(){
         super()
         this.state = {
-            novoTweet : ''
+            novoTweet : '',
+            tweets: []
         }
+    }
+
+    adicionaTweet = (event) => {
+        event.preventDefault();
+        //console.log('Adicionando...')
+        const novoTweet = this.state.novoTweet
+
+        this.setState({
+            tweets: [novoTweet, ...this.state.tweets], //spread operator
+            novoTweet : ''
+        })
     }
 
   render() {
@@ -25,7 +37,7 @@ class App extends Component {
             <Dashboard>
               
                 <Widget>
-                    <form className="novoTweet">
+                    <form className="novoTweet" onSubmit={this.adicionaTweet}>
                         <div className="novoTweet__editorArea">
                             <span className={`
                                 novoTweet__status 
@@ -47,7 +59,7 @@ class App extends Component {
                             }
                             className="novoTweet__editor" placeholder="O que está acontecendo?"></textarea>
                         </div>
-                        <button disabled={ this.state.novoTweet. length > 140 } type="submit" className="novoTweet__envia">Tweetar</button>
+                        <button disabled={ this.state.novoTweet.length > 140 } type="submit" className="novoTweet__envia">Tweetar</button>
                     </form>
                 </Widget>
                 <Widget>
@@ -57,7 +69,15 @@ class App extends Component {
             <Dashboard posicao="centro">
                 <Widget>
                     <div className="tweetsArea">
-                        <Tweet />
+                            {
+                                this.state.tweets.length === 0 ?
+                                'Vai la digita um tweet' 
+                                : ''
+                            }
+                            {
+                                this.state.tweets.map(
+                                    (tweet, index) => <Tweet key={index} texto={tweet} /> )
+                            }
                     </div>
                 </Widget>
             </Dashboard>
